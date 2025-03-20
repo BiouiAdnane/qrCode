@@ -22,7 +22,11 @@ public class JsonFormat {
     public String jsonFormat(@RequestBody Map<String, String> requestData) {
         String ref = requestData.get("ref");
         String montant = requestData.get("montant");
-        return generateData.setupQrCodeFormatJSON(ref, BigDecimal.valueOf(Long.parseLong(montant)));
+        if (montant != null && montant.matches("\\d+")) {
+            return generateData.setupQrCodeFormatJSON(ref, new BigDecimal(montant));
+        } else {
+            return generateData.setupQrCodeFormatJSON(ref, null);
+        }
     }
 
 }
