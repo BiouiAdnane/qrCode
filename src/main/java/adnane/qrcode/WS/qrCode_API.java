@@ -1,14 +1,16 @@
 package adnane.qrcode.WS;
 
 import adnane.qrcode.Services.QRCodeService;
+import com.google.zxing.WriterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
+@CrossOrigin("*")
 @RestController
 public class qrCode_API {
     @Autowired
@@ -26,5 +28,10 @@ public class qrCode_API {
             throw new RuntimeException("Error while generating QR Code");
         }
 
+    }
+
+    @PostMapping("api/qrCodeImage/Base64")
+    public String qrCodeImage(@RequestBody String qrCode) throws IOException, WriterException {
+        return QRCodeService.generateQRCodeAsBase64Image(qrCode,250,250);
     }
 }
